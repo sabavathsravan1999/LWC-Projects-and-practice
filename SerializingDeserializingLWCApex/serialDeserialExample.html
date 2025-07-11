@@ -1,0 +1,37 @@
+<template>
+    <lightning-card title="Account Contact Details">
+        <lightning-layout>
+        <lightning-layout-item size="6">
+            <lightning-input
+            label="Enter the Account Name"
+            required
+            placeholder="Enter exact Account Name"
+            onchange={handlechange}
+            ></lightning-input>
+        </lightning-layout-item>
+        <lightning-layout-item size="6" 
+        class="slds-m-left_medium slds-m-top_large">
+            <lightning-button
+            label="Find"
+            variant="brand"
+            onclick={handleclick}></lightning-button>
+
+        </lightning-layout-item>
+    </lightning-layout>
+    <div class="slds-box slds-box_xx-small">
+        <template if:true={accountDetails}>
+            <!-- display the Account name and the Account industry -->
+             <h3>{account.Name}</h3>
+             <p><strong>{account.Industry}</strong></p>
+             <template if:true={contactDetails}>
+                <!-- diaply all contatcs using Data Table -->
+                 <lightning-datatable
+                 key-field="Id"
+                 data={contacts}
+                 columns={COLUMNS}
+                 hide-checkbox-column="true"></lightning-datatable>
+             </template>
+        </template>
+    </div>
+    </lightning-card>
+</template>
