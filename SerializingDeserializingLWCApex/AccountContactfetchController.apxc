@@ -1,0 +1,21 @@
+public with sharing class AccountContactfetchController {
+    //Wrapper class
+    public class AccountContactWrapper{
+        public Account account;
+        public List<Contact> contacts;
+        public AccountContactWrapper(Account account, List<Contact> contacts){
+            this.account=account;
+            this.contacts=contacts;
+        }
+    }
+
+    @AuraEnabled
+    public static String fetchAccountContact(String accountName){
+        Account acc=[Select Id, Name, Industry from Account where Name = :accountName LIMIT 1];
+        List<Contact> con=[Select Id, FirstName, LastName, Email from Contact where AccountId = : acc.Id];
+        //i can not send this json so first i will wrapp this
+        AccountContactWrapper wrapper=new AccountContactWrapper(acc, con);
+        String jsonData=JSON.serialize(wrapper);
+        return jsonData;
+    }
+}
